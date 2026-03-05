@@ -1,0 +1,143 @@
+/*
+
+justify-content for horizontal control
+align-items for vertical control
+
+#F9D967
+*/
+
+:root
+{
+    --purple: #562D79;
+    --purple-dark: #3A1D52;
+
+    --yellow: #F9D967;
+
+    --white: #FFFFFF;
+    --black: #000000;
+    --grey: #9B9B9B;
+    --ms-blue: #0078D4;
+
+    --serif: 'Playfair Display', Georgia, serif;
+    --sans:  'DM Sans', sans-serif;
+}
+
+.loginPageBackground
+{
+    display: flex;
+    min-height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background: var(--purple);
+    background-image:
+        radial-gradient(ellipse at 20% 50%, rgba(86, 45, 121, 0.4) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, rgba(212, 168, 67, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 20% 90%, rgba(241, 193, 80, 0.1) 0%, transparent 50%);
+}
+
+.pageLayout
+{
+    position: relative;
+    overflow: hidden;
+}
+
+@keyframes fadeUp
+{
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.loginCard
+{
+    background: var(--white);
+    border-radius: 24px;
+    padding: 2rem 3rem;
+    max-width: 32rem;
+    width: 100%;
+    position: relative;
+    /* animation: fadeUp 0.4s ease both; */
+    display: flex;
+    flex-direction: column;
+    border-top: 6px solid var(--yellow);
+}
+
+.mcuImageWrapper  /*  */
+{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+    /* border: 1px solid rgba(0, 0, 0, 1); */
+}
+
+.mcuLogo1
+{
+    width: 100%;
+    max-width: 9.375rem;
+    height: auto;
+}
+
+.divider
+{
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(86,45,121,0.12), transparent);
+}
+
+.login-title
+{
+    font-family: var(--sans);
+    font-size: 1.7rem;
+    font-weight: 800;
+    color: var(--purple);
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+    text-transform: capitalize;
+}
+
+.ms-icon
+{
+    width: 1.75rem;
+    height: 1.75rem;
+    flex-shrink: 0;   /* prevents shrinking */
+}
+
+.btn-login
+{
+    display: inline-flex;
+    align-items: center;
+    justify-content:center;
+    gap: 0.75rem;
+    background-color: var(--ms-blue);
+    color: var(--white);
+    padding: 0.75rem 1.25rem;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1), 0 8px 16px rgba(0,0,0,0.1);
+}
+
+.btn-login:hover
+{
+    background-color: #006CBE;
+    transform: translateY(-1px);
+}
+
+.login-subtitle
+{
+    font-family: var(--sans);
+    font-size: 1rem;
+    color: #6B6B6B;
+    text-align: center;
+    line-height: 1.6;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+
+.login-note
+{
+    font-size: 0.71875rem;
+    color: var(--grey);
+    text-align: center;
+    margin-top: 0.75rem;
+}

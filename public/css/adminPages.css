@@ -1,0 +1,382 @@
+/* ─────────────────────────────────────
+   PAGE HEADER
+───────────────────────────────────── */
+.page-header
+{
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+
+.page-label
+{
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--gold);
+    opacity: 0.75;
+    margin-bottom: 0.25rem;
+}
+
+.page-title
+{
+    font-family: var(--serif);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    line-height: 1.2;
+}
+
+.gold-line
+{
+    width: 2.5rem;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    border-radius: 2px;
+    margin-top: 0.6rem;
+}
+
+.page-badge
+{
+    padding: 0.4rem 1rem;
+    background: rgba(86, 45, 121, 0.08);
+    border: 1px solid rgba(86, 45, 121, 0.2);
+    border-radius: 2rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--primary);
+}
+
+/* ─────────────────────────────────────
+   STAT CARDS
+───────────────────────────────────── */
+.stats-grid
+{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.stat-card
+{
+    background: var(--white);
+    border: 1px solid rgba(86, 45, 121, 0.1);
+    border-radius: 1rem;
+    padding: 1.4rem 1.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.stat-card--highlight
+{
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    border-color: transparent;
+}
+
+.stat-card--highlight .stat-label,
+.stat-card--highlight .stat-value
+{
+    color: var(--white);
+}
+
+.stat-icon
+{
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.stat-value
+{
+    font-family: var(--serif);
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    line-height: 1;
+}
+
+.stat-label
+{
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--gold-dim);
+    margin-top: 0.35rem;
+}
+
+.stat-sub
+{
+    font-size: 0.75rem;
+    color: rgba(0,0,0,0.35);
+    margin-top: 0.25rem;
+}
+
+.stat-sub--live
+{
+    color: var(--success);
+    font-weight: 600;
+}
+
+/* ─────────────────────────────────────
+   TWO COLUMN
+───────────────────────────────────── */
+.two-col
+{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+}
+
+/* ─────────────────────────────────────
+   CARD
+───────────────────────────────────── */
+.card
+{
+    background: var(--white);
+    border: 1px solid rgba(86, 45, 121, 0.1);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    margin-bottom: 1.25rem;
+}
+
+.card-header
+{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+}
+
+.card-title
+{
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--primary-dark);
+}
+
+.card-header-sub
+{
+    font-size: 0.75rem;
+    color: rgba(0,0,0,0.35);
+}
+
+/* ─────────────────────────────────────
+   ACTIVITY LIST
+───────────────────────────────────── */
+.act-list
+{
+    display: flex;
+    flex-direction: column;
+}
+
+.act-item
+{
+    display: flex;
+    gap: 0.85rem;
+    align-items: flex-start;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.act-item:last-child { border-bottom: none; }
+
+.act-icon
+{
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 0.5rem;
+    background: rgba(86, 45, 121, 0.07);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.act-text
+{
+    font-size: 0.875rem;
+    color: rgba(0,0,0,0.65);
+    line-height: 1.5;
+}
+
+.act-text strong { color: var(--primary-dark); }
+
+.act-time
+{
+    font-size: 0.7rem;
+    color: rgba(0,0,0,0.3);
+    margin-top: 0.2rem;
+}
+
+/* ─────────────────────────────────────
+   LEADERBOARD PREVIEW
+───────────────────────────────────── */
+.lb-preview { display: flex; flex-direction: column; gap: 0.6rem; }
+
+.lb-row
+{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.85rem 1rem;
+    border-radius: 0.75rem;
+    background: rgba(86, 45, 121, 0.04);
+    border: 1px solid rgba(86, 45, 121, 0.08);
+}
+
+.lb-row--1 { border-color: rgba(212, 168, 67, 0.35); background: rgba(212, 168, 67, 0.05); }
+
+.lb-rank { font-size: 1.3rem; flex-shrink: 0; }
+
+.lb-info { flex: 1; }
+
+.lb-name
+{
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--primary-dark);
+}
+
+.lb-rep
+{
+    font-size: 0.72rem;
+    color: rgba(0,0,0,0.4);
+}
+
+.lb-score
+{
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+/* ─────────────────────────────────────
+   ROLE SUMMARY PILLS
+───────────────────────────────────── */
+.role-summary
+{
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.role-pill
+{
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 1.1rem 1.25rem;
+    background: var(--white);
+    border: 1px solid rgba(86, 45, 121, 0.1);
+    border-radius: 1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.role-pill-icon { font-size: 1.6rem; }
+
+.role-pill-count
+{
+    font-family: var(--serif);
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    line-height: 1;
+}
+
+.role-pill-label
+{
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: rgba(0,0,0,0.4);
+    margin-top: 0.1rem;
+}
+
+/* ─────────────────────────────────────
+   TABLE
+───────────────────────────────────── */
+.tbl
+{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tbl th
+{
+    text-align: left;
+    padding: 0.6rem 0.85rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--gold-dim);
+    border-bottom: 2px solid rgba(212, 168, 67, 0.2);
+}
+
+.tbl td
+{
+    padding: 0.9rem 0.85rem;
+    font-size: 0.875rem;
+    color: rgba(0,0,0,0.65);
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.tbl tr:last-child td { border-bottom: none; }
+
+.tbl tr:hover td { background: rgba(86, 45, 121, 0.02); }
+
+.td-strong { font-weight: 600; color: var(--primary-dark); }
+
+/* ─────────────────────────────────────
+   BADGES
+───────────────────────────────────── */
+.badge
+{
+    display: inline-block;
+    padding: 0.2rem 0.65rem;
+    border-radius: 2rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.badge--admin    { background: rgba(86,45,121,0.12);  color: var(--primary); }
+.badge--judge    { background: rgba(212,168,67,0.15); color: var(--gold-dim); }
+.badge--tabulator{ background: rgba(46,204,113,0.12); color: #1a8a4a; }
+.badge--active   { background: rgba(46,204,113,0.12); color: #1a8a4a; }
+.badge--pending  { background: rgba(243,156,18,0.12); color: #b57200; }
+
+/* ─────────────────────────────────────
+   BUTTONS
+───────────────────────────────────── */
+.btn
+{
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 0.6rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: var(--sans);
+    border: none;
+    transition: all 0.15s ease;
+    text-decoration: none;
+}
+
+.btn:hover { opacity: 0.85; transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+
+.btn--gold    { background: linear-gradient(135deg, var(--gold), var(--gold-light)); color: var(--primary-dark); }
+.btn--outline { background: transparent; border: 1px solid rgba(86,45,121,0.25); color: var(--primary); }
+.btn--sm      { padding: 0.35rem 0.85rem; font-size: 0.75rem; }
