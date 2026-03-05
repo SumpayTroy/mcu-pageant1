@@ -16,3 +16,15 @@ Route::get('/admin/user-roles', function ()
 {
     return view('admin.user-roles');
 })->name('admin.user-roles');
+
+// ─── Judge ───────────────────────────────
+Route::get('/judge/dashboard', function ()
+{
+    return view('judge.dashboard');
+})->name('judge.dashboard');
+
+// ─── SAS ─────────────────────────────────
+Route::get('/sas/dashboard', function ()
+{
+    return view('sas.dashboard');
+})->name('sas.dashboard');
