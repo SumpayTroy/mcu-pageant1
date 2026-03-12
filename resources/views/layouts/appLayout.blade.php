@@ -129,7 +129,7 @@
 
                         </a>
 
-                        <a href="#" class="nav-item">
+                        <a href="{{ route('sas.contestants') }}" class="nav-item {{ request() -> routeIs('sas.contestants') ? 'active' : '' }}">
 
                             <span class="nav-icon">👥</span> Contestants
 

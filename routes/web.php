@@ -30,4 +30,4 @@ Route::get('/sas/dashboard', function ()
     return view('sas.dashboard');
 })->name('sas.dashboard');
 
-Route::get('/admin/contestants', [ContestantController::class, 'index'])->name('admin.contestants');
+Route::get('/sas/contestants', [ContestantController::class, 'index'])->name('sas.contestants');
