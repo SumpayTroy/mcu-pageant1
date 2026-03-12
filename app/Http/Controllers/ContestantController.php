@@ -12,6 +12,6 @@ class ContestantController extends Controller
     {
         $contestants = Contestant::all();
 
-        return view('admin.contestants', compact('contestants'));
+        return view('sas.contestants', compact('contestants'));
     }
 }

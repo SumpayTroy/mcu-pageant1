@@ -31,4 +31,5 @@ Route::get('/sas/dashboard', function ()
 })->name('sas.dashboard');
 
 Route::get('/admin/contestants', [ContestantController::class, 'index'])->name('admin.contestants');
+Route::get('/sas/contestants', [ContestantController::class, 'index'])->name('sas.contestants');
 Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
