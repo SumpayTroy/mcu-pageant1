@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ContestantController;
 use App\Http\Controllers\UserController;
-
 Route::get('/', function ()
 {
     return view('login');
@@ -17,4 +17,18 @@ Route::get('/admin/user-roles', function ()
 {
     return view('admin.user-roles');
 })->name('admin.user-roles');
+
+// ─── Judge ───────────────────────────────
+Route::get('/judge/dashboard', function ()
+{
+    return view('judge.dashboard');
+})->name('judge.dashboard');
+
+// ─── SAS ─────────────────────────────────
+Route::get('/sas/dashboard', function ()
+{
+    return view('sas.dashboard');
+})->name('sas.dashboard');
+
+Route::get('/admin/contestants', [ContestantController::class, 'index'])->name('admin.contestants');
 Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
