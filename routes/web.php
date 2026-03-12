@@ -17,5 +17,4 @@ Route::get('/admin/user-roles', function ()
 {
     return view('admin.user-roles');
 })->name('admin.user-roles');
-
 Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');

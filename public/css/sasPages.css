@@ -1,0 +1,136 @@
+/* ─────────────────────────────────────
+   PAGE HEADER
+───────────────────────────────────── */
+.page-header
+{
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+
+.page-label
+{
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--gold-dim);
+    margin-bottom: 0.25rem;
+}
+
+.page-title
+{
+    font-family: var(--serif);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    line-height: 1.2;
+}
+
+.gold-line
+{
+    width: 2.5rem;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    border-radius: 2px;
+    margin-top: 0.6rem;
+}
+
+.page-badge
+{
+    padding: 0.4rem 1rem;
+    background: rgba(86, 45, 121, 0.07);
+    border: 1px solid rgba(86, 45, 121, 0.18);
+    border-radius: 2rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--primary);
+}
+
+/* ─────────────────────────────────────
+   CANVAS STAT CARDS
+───────────────────────────────────── */
+.canvas-grid
+{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.canvas-card
+{
+    background: var(--white);
+    border: 1px solid rgba(86, 45, 121, 0.1);
+    border-radius: 1rem;
+    padding: 1.4rem 1.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.canvas-card--highlight
+{
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    border-color: transparent;
+}
+
+.canvas-card--highlight .canvas-label,
+.canvas-card--highlight .canvas-value
+{
+    color: var(--white);
+}
+
+.canvas-icon
+{
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.canvas-value
+{
+    font-family: var(--serif);
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    line-height: 1;
+}
+
+.canvas-label
+{
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--gold-dim);
+    margin-top: 0.35rem;
+}
+
+/* ─────────────────────────────────────
+   CANVAS PLACEHOLDER
+───────────────────────────────────── */
+.canvas-placeholder
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 4rem 2rem;
+    background: var(--white);
+    border: 2px dashed rgba(86, 45, 121, 0.15);
+    border-radius: 1rem;
+    text-align: center;
+}
+
+.canvas-placeholder-icon
+{
+    font-size: 2.5rem;
+    opacity: 0.4;
+}
+
+.canvas-placeholder-text
+{
+    font-size: 0.9rem;
+    color: rgba(0,0,0,0.3);
+    font-weight: 500;
+}
