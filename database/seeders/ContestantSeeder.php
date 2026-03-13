@@ -19,6 +19,7 @@ class ContestantSeeder extends Seeder
             'name' => 'Kim Chaewon',
             'course' => 'BSIT',
             'photo' => null,
+            'event_id' => 1
         ]);
 
         Contestant::create
@@ -27,6 +28,7 @@ class ContestantSeeder extends Seeder
             'name' => 'Kang Haerin',
             'course' => 'BSBA',
             'photo' => null,
+            'event_id' => 1
         ]);
 
         Contestant::create
@@ -35,6 +37,7 @@ class ContestantSeeder extends Seeder
             'name' => 'Hanni Pham',
             'course' => 'BSTM',
             'photo' => null,
+            'event_id' => 1
         ]);
     }
 }

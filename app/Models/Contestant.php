@@ -12,5 +12,6 @@ class Contestant extends Model
         'name',
         'course',
         'photo',
+        'event_id',
     ];
 }

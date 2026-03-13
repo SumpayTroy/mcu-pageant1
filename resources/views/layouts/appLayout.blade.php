@@ -42,7 +42,6 @@
                 <div class="user-info">
 
                     <div class="user-name">Test D. Luffy</div>
-                    {{-- <div class="user-role">ADMIN</div> --}}
 
                     @if(request()->is('admin/*'))
 
@@ -84,6 +83,12 @@
                         <a href="{{ route('admin.user-roles') }}" class="nav-item {{ request()->routeIs('admin.user-roles') ? 'active' : '' }}">
 
                             <span class="nav-icon">👤</span> User Roles
+
+                        </a>
+
+                        <a href="{{ route('admin.events') }}" class="nav-item {{ request()->routeIs('admin.events*') ? 'active' : '' }}">
+
+                            <span class="nav-icon">🎭</span> Events
 
                         </a>
 
