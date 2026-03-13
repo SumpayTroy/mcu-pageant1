@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContestantController;
-use App\Http\Controllers\EventController;
 
 Route::get('/', function ()
 {
@@ -19,10 +18,6 @@ Route::get('/admin/user-roles', function ()
     return view('admin.user-roles');
 })->name('admin.user-roles');
 
-Route::get('/admin/events/create', function () {
-    return view('admin.events-create');
-})->name('admin.events.create');
-
 // ─── Judge ───────────────────────────────
 Route::get('/judge/dashboard', function ()
 {
@@ -35,6 +30,5 @@ Route::get('/sas/dashboard', function ()
     return view('sas.dashboard');
 })->name('sas.dashboard');
 
+Route::get('/admin/contestants', [ContestantController::class, 'index'])->name('admin.contestants');
 Route::get('/sas/contestants', [ContestantController::class, 'index'])->name('sas.contestants');
-
-Route::get('/admin/events', [EventController::class, 'index'])->name('admin.events');
