@@ -18,52 +18,74 @@
 
         <div class="loginPageBackground">
 
-            <div class="pageLayout">
+            {{-- MCU watermark logo top right --}}
+            <div class="watermark">
+                <img src="{{ asset('images/mcuLogo1.png') }}" class="watermark-img">
+                <div class="watermark-text">Manila Central<br>University</div>
+            </div>
 
-                <div class="loginCard">
+            <div class="loginCard">
 
-                    <div class="mcuImageWrapper">
+                {{-- Header --}}
+                <div class="card-header">
+                    <img class="mcuLogo1" src="{{ asset('images/mcuLogo1.png') }}">
+                </div>
 
-                        <img class="mcuLogo1" src="{{ asset('images/mcuLogo1.png') }}">
+                <div class="divider"></div>
 
-                    </div>
+                <div class="pick-title">Pick an account</div>
 
-                    <div class="divider"></div>
+                {{-- Account options --}}
+                <div class="account-list">
 
-                    <div class="login-title">Sign in to continue</div>
+                    <a href="{{ route('auth.microsoft') }}" class="account-item">
+                        <div class="account-avatar account-avatar--person">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+                                <circle cx="12" cy="8" r="4" fill="currentColor"/>
+                                <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <div class="account-info">
+                            <div class="account-name">Sign in with Microsoft</div>
+                            <div class="account-email">Use your MCU Microsoft 365 account</div>
+                        </div>
+                        <div class="account-arrow">
+                            <svg viewBox="0 0 20 20" width="16" height="16" fill="none">
+                                <circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.2"/>
+                                <path d="M8 7l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                    </a>
 
-                    <div class="login-subtitle">
+                    <a href="#" class="account-item account-item--other" onclick="handleLogin(event, 'other')">
+                        <div class="account-avatar account-avatar--plus">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
+                                <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <div class="account-info">
+                            <div class="account-name">Use another account</div>
+                        </div>
+                    </a>
 
-                        Use the University's Microsoft 365 account to access the system.
+                </div>
 
-                    </div>
-
-                    <button class="btn-login">
-
-                        Sign in with Microsoft
-
-                        <svg class="ms-icon" viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg">
-
-                            <rect x="1"  y="1"  width="9" height="9" fill="#F25022"/>
-                            <rect x="11" y="1"  width="9" height="9" fill="#7FBA00"/>
-                            <rect x="1"  y="11" width="9" height="9" fill="#00A4EF"/>
-                            <rect x="11" y="11" width="9" height="9" fill="#FFB900"/>
-
-                        </svg>
-
-                    </button>
-
-                    <div class="login-note">
-
-                        MCU Faculty & Staff only . Unauthorized access is prohibited
-
-                    </div>
-
+                <div class="login-note">
+                    MCU Faculty &amp; Staff only &middot; Unauthorized access is prohibited
                 </div>
 
             </div>
 
         </div>
+
+        <script>
+            function handleLogin(e, type) {
+                e.preventDefault();
+                if (type === 'microsoft') {
+                    window.location.href = '{{ route("auth.microsoft") }}';
+                }
+            }
+        </script>
 
     </body>
 

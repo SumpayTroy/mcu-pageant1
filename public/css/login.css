@@ -1,27 +1,28 @@
-/*
-
-justify-content for horizontal control
-align-items for vertical control
-
-#F9D967
-*/
-
 :root
 {
-    --purple: #562D79;
+    --purple:      #562D79;
     --purple-dark: #3A1D52;
-
-    --yellow: #F9D967;
-
-    --white: #FFFFFF;
-    --black: #000000;
-    --grey: #9B9B9B;
-    --ms-blue: #0078D4;
-
-    --serif: 'Playfair Display', Georgia, serif;
-    --sans:  'DM Sans', sans-serif;
+    --yellow:      #F9D967;
+    --white:       #FFFFFF;
+    --grey:        #9B9B9B;
+    --ms-blue:     #0078D4;
+    --serif:       'Playfair Display', Georgia, serif;
+    --sans:        'DM Sans', sans-serif;
 }
 
+*, *::before, *::after
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body
+{
+    font-family: var(--sans);
+}
+
+/* ── Background ── */
 .loginPageBackground
 {
     display: flex;
@@ -30,114 +31,177 @@ align-items for vertical control
     align-items: center;
     background: var(--purple);
     background-image:
-        radial-gradient(ellipse at 20% 50%, rgba(86, 45, 121, 0.4) 0%, transparent 60%),
-        radial-gradient(ellipse at 80% 20%, rgba(212, 168, 67, 0.08) 0%, transparent 50%),
-        radial-gradient(ellipse at 20% 90%, rgba(241, 193, 80, 0.1) 0%, transparent 50%);
-}
-
-.pageLayout
-{
+        radial-gradient(ellipse at 15% 50%, rgba(100, 55, 140, 0.6) 0%, transparent 55%),
+        radial-gradient(ellipse at 85% 20%, rgba(212, 168, 67, 0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 20% 90%, rgba(241, 193, 80, 0.08) 0%, transparent 50%);
     position: relative;
     overflow: hidden;
 }
 
+/* ── Watermark top right ── */
+.watermark
+{
+    position: absolute;
+    top: 2rem;
+    right: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0.25;
+    pointer-events: none;
+    user-select: none;
+}
+
+.watermark-img
+{
+    width: 5rem;
+    height: auto;
+    filter: brightness(0) invert(1);
+}
+
+.watermark-text
+{
+    color: var(--white);
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-align: center;
+    line-height: 1.4;
+}
+
+/* ── Card ── */
 @keyframes fadeUp
 {
-    from { opacity: 0; transform: translateY(20px); }
+    from { opacity: 0; transform: translateY(16px); }
     to   { opacity: 1; transform: translateY(0); }
 }
 
 .loginCard
 {
     background: var(--white);
-    border-radius: 24px;
-    padding: 2rem 3rem;
-    max-width: 32rem;
+    border-radius: 16px;
+    padding: 2rem 2rem 1.5rem;
     width: 100%;
+    max-width: 26rem;
+    animation: fadeUp 0.35s ease both;
     position: relative;
-    /* animation: fadeUp 0.4s ease both; */
-    display: flex;
-    flex-direction: column;
-    border-top: 6px solid var(--yellow);
+    z-index: 1;
 }
 
-.mcuImageWrapper  /*  */
+/* ── Card header ── */
+.card-header
 {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
+    align-items: center;
     margin-bottom: 1rem;
-    /* border: 1px solid rgba(0, 0, 0, 1); */
 }
 
 .mcuLogo1
 {
     width: 100%;
-    max-width: 9.375rem;
+    max-width: 6rem;
     height: auto;
 }
 
+/* ── Divider ── */
 .divider
 {
     width: 100%;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(86,45,121,0.12), transparent);
+    background: rgba(0,0,0,0.1);
+    margin-bottom: 1.25rem;
 }
 
-.login-title
+/* ── Title ── */
+.pick-title
 {
     font-family: var(--sans);
-    font-size: 1.7rem;
-    font-weight: 800;
-    color: var(--purple);
-    text-align: center;
-    margin-top: 1rem;
-    margin-bottom: 1.5rem;
-    text-transform: capitalize;
-}
-
-.ms-icon
-{
-    width: 1.75rem;
-    height: 1.75rem;
-    flex-shrink: 0;   /* prevents shrinking */
-}
-
-.btn-login
-{
-    display: inline-flex;
-    align-items: center;
-    justify-content:center;
-    gap: 0.75rem;
-    background-color: var(--ms-blue);
-    color: var(--white);
-    padding: 0.75rem 1.25rem;
-    border-radius: 6px;
+    font-size: 1.3rem;
     font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 0.5rem;
+}
+
+/* ── Account list ── */
+.account-list
+{
+    display: flex;
+    flex-direction: column;
+    margin-top: 0.5rem;
+}
+
+.account-item
+{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.85rem 0.75rem;
+    border-radius: 8px;
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.15s ease;
     cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1), 0 8px 16px rgba(0,0,0,0.1);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
 }
 
-.btn-login:hover
+.account-item:last-child { border-bottom: none; }
+
+.account-item:hover { background: rgba(0,0,0,0.04); }
+
+/* ── Avatar circles ── */
+.account-avatar
 {
-    background-color: #006CBE;
-    transform: translateY(-1px);
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
 }
 
-.login-subtitle
+.account-avatar--person
 {
-    font-family: var(--sans);
-    font-size: 1rem;
-    color: #6B6B6B;
-    text-align: center;
-    line-height: 1.6;
-    text-transform: uppercase;
-    margin-bottom: 1rem;
+    background: rgba(86, 45, 121, 0.1);
+    color: var(--purple);
+    border: 1px solid rgba(86, 45, 121, 0.15);
 }
 
+.account-avatar--plus
+{
+    background: rgba(0,0,0,0.05);
+    color: #555;
+    border: 1px dashed rgba(0,0,0,0.2);
+}
+
+/* ── Account text ── */
+.account-info { flex: 1; }
+
+.account-name
+{
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #1a1a1a;
+}
+
+.account-email
+{
+    font-size: 0.75rem;
+    color: var(--grey);
+    margin-top: 0.1rem;
+}
+
+/* ── Arrow icon ── */
+.account-arrow { color: #aaa; }
+
+/* ── Note ── */
 .login-note
 {
-    font-size: 0.71875rem;
+    font-size: 0.7rem;
     color: var(--grey);
     text-align: center;
-    margin-top: 0.75rem;
+    margin-top: 1.25rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(0,0,0,0.07);
 }

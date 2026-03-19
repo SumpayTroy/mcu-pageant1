@@ -8,14 +8,22 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-
-    // Show User Roles Page
-    public function index()
+     // Show User Roles Page
+    public function index(Request $request)
     {
-        $users = User::all();
+        $perPage = (int) $request->get('per_page', 10);
 
-        // Count roles for summary pills
-        $roleCounts = $users->groupBy('role')->map->count();
+        // Validate per_page to prevent abuse
+        if (!in_array($perPage, [10, 25, 50, 100])) {
+            $perPage = 10;
+        }
+
+        $users = User::paginate($perPage);
+
+        // Count roles for summary pills (query all, not just current page)
+        $roleCounts = User::selectRaw('role, count(*) as count')
+                          ->groupBy('role')
+                          ->pluck('count', 'role');
 
         return view('admin.user-roles', compact('users', 'roleCounts'));
     }
@@ -38,7 +46,7 @@ class UserController extends Controller
             'status'   => 'active',
         ]);
 
-        return back()->with('success', 'User created successfully!');
+        return redirect()->back()->with('success', 'User created successfully!');
     }
 
 
@@ -54,7 +62,10 @@ class UserController extends Controller
 
         $user->update($request->only('name','email','role','status'));
 
-        return back()->with('success', 'User updated successfully.');
+        return redirect()->route('admin.user-roles', [
+        'page'     => request('page', 1),
+        'per_page' => request('per_page', 10),
+        ])->with('success', 'User updated successfully.');
     }
 
 }
