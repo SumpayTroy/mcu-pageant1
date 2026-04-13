@@ -13,4 +13,35 @@ class EventController extends Controller
 
         return view('admin.events', compact('events'));
     }
+
+    public function store(Request $request)
+    {
+        $event = new Event();
+        $event->eventName = $request->input('eventName');
+        $event->status = $request->input('status');
+        $event->save();
+
+        return redirect()->route('admin.events')->with('success', 'Event created successfully!');
+    }
+
+    public function edit(Event $event)
+    {
+        return view('admin.events-edit', compact('event'));
+    }
+
+    public function update(Request $request, Event $event)
+    {
+        $event->eventName = $request->input('eventName');
+        $event->status = $request->input('status');
+        $event->save();
+
+        return redirect()->route('admin.events')->with('success', 'Event updated successfully!');
+    }
+
+    public function destroy(Event $event)
+    {
+        $event->delete();
+
+        return redirect()->route('admin.events')->with('success', 'Event deleted successfully!');
+    }
 }

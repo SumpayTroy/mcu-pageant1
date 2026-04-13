@@ -8,57 +8,62 @@
         <h1 class="page-title">Events</h1>
         <div class="gold-line"></div>
     </div>
-    <a href="/admin/events/create" class="btn btn--gold">+ Add Event</a>
+    <a href="{{ route('admin.events.create') }}" class="btn btn--gold">+ Add Event</a>
 </div>
 
-<div class="events-list">
-
-    @foreach($events as $event)
-    <div class="event-item">
-
-        <div class="event-item-left">
-            <div class="event-status-dot event-status-dot--{{ $event->status }}"></div>
-            <div>
-                <div class="event-name">{{ $event->eventName }}</div>
-                <div class="event-meta">{{ $event->contestants()->count() }} contestants</div>
-            </div>
-        </div>
-
-        <div class="event-item-right">
-            <span class="badge badge--{{ $event->status }}">{{ ucfirst($event->status) }}</span>
-            <div class="event-actions">
-                <button class="event-dots" onclick="toggleMenu(this)">⋯</button>
-                <div class="event-dropdown">
-                    <a href="/admin/events/{{ $event->id }}/edit" class="event-dropdown-item">✏️ Edit</a>
-                    <button class="event-dropdown-item event-dropdown-item--danger">🗑️ Delete</button>
-                </div>
-            </div>
-        </div>
-
+{{-- Success message --}}
+@if(session('success'))
+    <div class="alert-success">
+        <span class="checkmark">✔</span>
+        {{ session('success') }}
     </div>
-    @endforeach
+@endif
 
+{{-- Events List --}}
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">All Events</h2>
+    </div>
+
+    <table class="tbl">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Status</th>
+                <th>Created</th>
+                <th>Updated</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($events as $event)
+                <tr>
+                    <td class="td-strong">{{ $event->eventName }}</td>
+                    <td>
+                        <span class="badge badge--{{ $event->status }}">
+                            {{ ucfirst($event->status) }}
+                        </span>
+                    </td>
+                    <td>{{ $event->created_at->format('M d, Y') }}</td>
+                    <td>{{ $event->updated_at->format('M d, Y') }}</td>
+                    <td>
+                        <a href="{{ route('admin.events.edit', $event->id) }}" class="btn btn--outline btn--sm">Edit</a>
+                        {{-- You can add delete later --}}
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="5" style="text-align:center; color:rgba(0,0,0,0.4);">
+                        No events found
+                    </td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
 </div>
 
 @endsection
 
 @push('scripts')
-<script>
-    function toggleMenu(btn) {
-        const dropdown = btn.nextElementSibling;
-        const allDropdowns = document.querySelectorAll('.event-dropdown');
-
-        allDropdowns.forEach(d => {
-            if (d !== dropdown) d.classList.remove('open');
-        });
-
-        dropdown.classList.toggle('open');
-    }
-
-    document.addEventListener('click', function(e) {
-        if (!e.target.classList.contains('event-dots')) {
-            document.querySelectorAll('.event-dropdown').forEach(d => d.classList.remove('open'));
-        }
-    });
-</script>
+<script src="{{ asset('js/admin_events.js') }}"></script>
 @endpush
