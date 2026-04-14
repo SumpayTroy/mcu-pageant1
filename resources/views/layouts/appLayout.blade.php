@@ -29,6 +29,37 @@
 
         <div class="topHeader">
             <img class="mcuLogo1" src="{{ asset('images/mcuLogo1.png') }}">
+
+            <div class="user-pill">
+
+                <div class="user-avatar">
+
+                    <img class="userProfilePicture" src="{{ asset('images/user.png') }}">
+
+                </div>
+
+                <div class="user-info">
+
+                    <div class="user-name">Test D. Luffy</div>
+
+                    @if(request()->is('admin/*'))
+
+                        <div class="user-role">ADMIN</div>
+
+                    @elseif(request()->is('judge/*'))
+
+                        <div class="user-role">JUDGE</div>
+
+                    @elseif(request()->is('sas/*'))
+
+                        <div class="user-role">SAS</div>
+
+                    @endif
+
+                </div>
+
+            </div>
+
         </div>
 
         <div class="app-layout">
@@ -48,6 +79,13 @@
 
                         <a href="{{ route('admin.user-roles') }}" class="nav-item {{ request()->routeIs('admin.user-roles') ? 'active' : '' }}">
                             <span class="nav-icon">👤</span> User Roles
+
+                        </a>
+
+                        <a href="{{ route('admin.events') }}" class="nav-item {{ request()->routeIs('admin.events*') ? 'active' : '' }}">
+
+                            <span class="nav-icon">🎭</span> Events
+
                         </a>
 
                         <span class="nav-section-label">Operations</span>

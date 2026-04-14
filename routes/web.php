@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ContestantController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\AuthController;
 
 Route::get('/', function ()
@@ -16,11 +17,23 @@ Route::get('/admin/dashboard', function ()
     return view('admin.dashboard');
 })->name('admin.dashboard');
 
-/* USER ROLES PAGE */
+// ─── Admin ───────────────────────────────
 Route::get('/admin/user-roles', [UserController::class, 'index'])->name('admin.user-roles');
 Route::post('/admin/users', [UserController::class, 'store'])->name('users.store');
 Route::put('/admin/users/{user}', [UserController::class, 'update'])->name('users.update');
 Route::get('/admin/contestants', [ContestantController::class, 'index'])->name('admin.contestants');
+
+Route::get('/admin/events', [EventController::class, 'index'])->name('admin.events');
+
+Route::get('/admin/events/create', function () { return view('admin.events-create'); })->name('admin.events.create');
+
+Route::post('/admin/events', [EventController::class, 'store'])->name('admin.events.store');
+
+Route::get('/admin/events/{event}/edit', [EventController::class, 'edit'])->name('admin.events.edit');
+
+Route::put('/admin/events/{event}', [EventController::class, 'update'])->name('admin.events.update');
+
+Route::delete('/admin/events/{event}', [EventController::class, 'destroy'])->name('admin.events.destroy');
 
 // ─── Judge ──
 Route::get('/judge/dashboard', function ()

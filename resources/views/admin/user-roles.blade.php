@@ -196,12 +196,12 @@
     </div>
 </div>
 
-{{-- Include modal partials --}}
 @include('admin.modals.add-user')
 @include('admin.modals.edit-user')
 
 {{-- JS Scripts --}}
 @push('scripts')
+<script src="{{ asset('js/admin_userroles.js') }}"></script>
 <script>
 
     // ── Lines per page ──────────────────────────────────────────
