@@ -8,19 +8,18 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-     // Show User Roles Page
+    // ── Index ────────────────────────────────────────────────────
     public function index(Request $request)
     {
-        $perPage = (int) $request->get('per_page', 10);
+        $perPage = (int) $request->input('per_page', 10);
 
-        // Validate per_page to prevent abuse
+        // Prevent abuse
         if (!in_array($perPage, [10, 25, 50, 100])) {
             $perPage = 10;
         }
 
-        $users = User::paginate($perPage);
+        $users = User::paginate($perPage)->appends($request->query());
 
-        // Count roles for summary pills (query all, not just current page)
         $roleCounts = User::selectRaw('role, count(*) as count')
                           ->groupBy('role')
                           ->pluck('count', 'role');
@@ -28,44 +27,109 @@ class UserController extends Controller
         return view('admin.user-roles', compact('users', 'roleCounts'));
     }
 
-
-    // STORE NEW USER (Add User Modal)
+    // ── Store ────────────────────────────────────────────────────
     public function store(Request $request)
     {
         $request->validate([
-            'name'  => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'role'  => 'nullable|in:admin,judge,tabulator,guest,sas',
+            'name'     => 'required|string|min:2|max:255',
+            'email'    => 'required|email|unique:users,email',
+            'password' => 'required|string|min:8|confirmed',
+            'role'     => 'required|in:admin,judge,tabulator,sas,guest',
+            'status'   => 'required|in:active,inactive,pending',
+        ], [
+            'name.required'      => 'Name is required.',
+            'name.min'           => 'Name must be at least 2 characters.',
+            'email.required'     => 'Email is required.',
+            'email.email'        => 'Please enter a valid email address.',
+            'email.unique'       => 'This email is already registered.',
+            'password.required'  => 'Password is required.',
+            'password.min'       => 'Password must be at least 8 characters.',
+            'password.confirmed' => 'Passwords do not match.',
+            'role.required'      => 'Please select a role.',
+            'status.required'    => 'Please select a status.',
         ]);
 
         User::create([
             'name'     => $request->name,
             'email'    => $request->email,
-            'password' => Hash::make('password'), // default password
-            'role'     => $request->role ?? 'guest',
-            'status'   => 'active',
+            'password' => Hash::make($request->password),
+            'role'     => $request->role,
+            'status'   => $request->status,
         ]);
 
-        return redirect()->back()->with('success', 'User created successfully!');
+        return redirect()->route('admin.user-roles')
+            ->with('success', 'User "' . $request->name . '" has been added successfully!');
     }
 
-
-    // UPDATE USER (Edit Modal)
+    // ── Update ───────────────────────────────────────────────────
     public function update(Request $request, User $user)
     {
         $request->validate([
-            'name'   => 'required|string|max:255',
+            'name'   => 'required|string|min:2|max:255',
             'email'  => 'required|email|unique:users,email,' . $user->id,
-            'role'   => 'required|in:admin,judge,tabulator,guest,sas',
-            'status' => 'required|in:active,pending,inactive',
+            'role'   => 'required|in:admin,judge,tabulator,sas,guest',
+            'status' => 'required|in:active,inactive,pending',
+        ], [
+            'name.required'   => 'Name is required.',
+            'name.min'        => 'Name must be at least 2 characters.',
+            'email.required'  => 'Email is required.',
+            'email.email'     => 'Please enter a valid email address.',
+            'email.unique'    => 'This email is already used by another user.',
+            'role.required'   => 'Please select a role.',
+            'status.required' => 'Please select a status.',
         ]);
 
-        $user->update($request->only('name','email','role','status'));
+        $user->update([
+            'name'   => $request->name,
+            'email'  => $request->email,
+            'role'   => $request->role,
+            'status' => $request->status,
+        ]);
 
         return redirect()->route('admin.user-roles', [
-        'page'     => request('page', 1),
-        'per_page' => request('per_page', 10),
-        ])->with('success', 'User updated successfully.');
+            'page'     => $request->input('page', 1),
+            'per_page' => $request->input('per_page', 10),
+        ])->with('success', 'User "' . $user->name . '" has been updated successfully!');
     }
 
+    // ── Destroy (soft delete) ──────────────────────────────────────────────────
+    public function destroy(User $user)
+    {
+        $name = $user->name;
+        $user->delete();
+
+        return redirect()->route('admin.user-roles')
+            ->with('success', 'User "' . $name . '" has been deleted successfully!');
+    }
+
+    // ── Archive (view deleted users) ─────────────────────────────────
+public function archive()
+{
+    $users = User::onlyTrashed()
+                 ->orderBy('deleted_at', 'desc')
+                 ->paginate(10);
+
+    return view('admin.user-archive', compact('users'));
+}
+
+// ── Restore ──────────────────────────────────────────────────────
+public function restore($id)
+{
+    $user = User::onlyTrashed()->findOrFail($id);
+    $user->restore();
+
+    return redirect()->route('admin.user-archive')
+        ->with('success', 'User "' . $user->name . '" has been restored.');
+}
+
+// ── Force Delete (permanent) ─────────────────────────────────────
+public function forceDelete($id)
+{
+    $user = User::onlyTrashed()->findOrFail($id);
+    $name = $user->name;
+    $user->forceDelete();
+
+    return redirect()->route('admin.user-archive')
+        ->with('success', 'User "' . $name . '" has been permanently deleted.');
+}
 }

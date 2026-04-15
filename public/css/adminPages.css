@@ -903,3 +903,57 @@ select.form-input {
     font-size: 13px;
     color: rgba(0,0,0,0.35);
 }
+
+.alert-error {
+    background: #fef2f2;
+    border: 1px solid #fca5a5;
+    color: #dc2626;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.form-error {
+    color: #dc2626;
+    font-size: 0.78rem;
+    margin-top: 0.25rem;
+    display: block;
+}
+
+.is-invalid {
+    border-color: #dc2626 !important;
+}
+
+.password-wrapper {
+    position: relative;
+}
+
+.password-wrapper .form-control {
+    padding-right: 35px; /* space for the icon */
+}
+
+.toggle-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.modal {
+    max-height: 90vh; /* modal fits within viewport */
+    overflow-y: auto; /* enable scrolling */
+}
+
+.modal-body {
+    max-height: 60vh; /* limit body height */
+    overflow-y: auto; /* scroll only the body */
+    padding-right: 10px; /* space for scrollbar */
+}
+
+

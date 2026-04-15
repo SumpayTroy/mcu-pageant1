@@ -4,13 +4,43 @@
 
 @section('content')
 
+{{-- Flash Messages --}}
+{{-- @if(session('success'))
+    <div class="alert-success" id="flashMessage">
+        <span class="checkmark">✔</span>
+        {{ session('success') }}
+    </div>
+@endif
+
+@if(session('error'))
+    <div class="alert-error" id="flashMessage">
+        <span>✖</span>
+        {{ session('error') }}
+    </div>
+@endif
+
+@if($errors->any())
+    <div class="alert-error" id="flashMessage">
+        <span>✖</span>
+        <ul style="margin:0; padding-left:1rem;">
+            @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif --}}
+
 <div class="page-header">
     <div>
         <div class="page-label">Admin Management</div>
         <h1 class="page-title">User Roles</h1>
         <div class="gold-line"></div>
     </div>
-    <button class="btn btn--gold" onclick="openAddModal()">+ Add User</button>
+    {{-- ✅ Fixed: merged both button groups here, removed the duplicate div below --}}
+    <div style="display:flex; gap:0.5rem; align-items:center;">
+        <a href="{{ route('admin.user-archive') }}" class="btn btn--outline">🗄 Archive</a>
+        <button class="btn btn--gold" onclick="openAddModal()">+ Add User</button>
+    </div>
 </div>
 
 {{-- Role Summary --}}
@@ -40,11 +70,8 @@
         <h2 class="card-title">All Users</h2>
     </div>
 
-
     {{-- Top Bar: Search + Lines per page + Filters --}}
     <div class="table-top-bar">
-
-        {{-- Search --}}
         <div class="search-wrap">
             <span class="search-icon">🔍</span>
             <input
@@ -56,7 +83,6 @@
             >
         </div>
 
-        {{-- Right side: Lines per page + Filters --}}
         <div class="table-top-right">
             <div class="lpp-wrap">
                 <span class="lpp-label">Lines per page</span>
@@ -81,10 +107,9 @@
                 Filters
             </button>
         </div>
-
     </div>
 
-    {{-- Filter Panel (hidden by default) --}}
+    {{-- Filter Panel --}}
     <div id="filterPanel" class="filter-panel" style="display:none;">
         <div class="filter-group">
             <label class="filter-label">Role</label>
@@ -122,20 +147,26 @@
         </thead>
         <tbody id="userTableBody">
             @foreach($users as $user)
-            <tr
-                data-role="{{ $user->role }}"
-                data-status="{{ $user->status }}"
-            >
+            <tr data-role="{{ $user->role }}" data-status="{{ $user->status }}">
                 <td>{{ $users->firstItem() + $loop->index }}</td>
                 <td class="td-strong">{{ $user->name }}</td>
                 <td>{{ $user->email }}</td>
                 <td><span class="badge badge--{{ $user->role }}">{{ ucfirst($user->role) }}</span></td>
                 <td><span class="badge badge--{{ $user->status }}">{{ ucfirst($user->status) }}</span></td>
-                <td>
+                <td style="display:flex; gap:0.4rem;">
+                    {{-- Edit button --}}
                     <button class="btn btn--sm btn--outline"
                         onclick="openEditModal('{{ $user->id }}','{{ $user->name }}','{{ $user->email }}','{{ $user->role }}','{{ $user->status }}')">
                         Edit
                     </button>
+
+                    {{-- Delete button (soft-delete / archive) --}}
+                    <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST"
+                          onsubmit="return confirm('Archive this user?')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn--sm btn--danger">Delete</button>
+                    </form>
                 </td>
             </tr>
             @endforeach
@@ -147,21 +178,19 @@
         No users found matching your search.
     </div>
 
-    {{-- Bottom Bar: Showing X to Y + Pagination --}}
+    {{-- Bottom Bar --}}
     <div class="table-bottom-bar">
         <span class="showing-text">
             Showing {{ $users->firstItem() }} to {{ $users->lastItem() }} of {{ $users->total() }} entries
         </span>
         <div class="pagination-wrap">
 
-            {{-- Prev --}}
             @if($users->onFirstPage())
                 <span class="pg-btn pg-btn--disabled">&#8249;</span>
             @else
                 <a href="{{ $users->previousPageUrl() }}&per_page={{ request('per_page', 10) }}" class="pg-btn">&#8249;</a>
             @endif
 
-            {{-- Page numbers --}}
             @php
                 $currentPage = $users->currentPage();
                 $lastPage    = $users->lastPage();
@@ -175,23 +204,18 @@
                 @if($prev !== null && $page - $prev > 1)
                     <span class="pg-dots">…</span>
                 @endif
-                @php
-                    $pageUrl = $users->url($page) . '&per_page=' . request('per_page', 10);
-                @endphp
-                <a href="{{ $pageUrl }}"
-                   class="pg-btn {{ $page === $currentPage ? 'pg-btn--active' : '' }}">
+                @php $pageUrl = $users->url($page) . '&per_page=' . request('per_page', 10); @endphp
+                <a href="{{ $pageUrl }}" class="pg-btn {{ $page === $currentPage ? 'pg-btn--active' : '' }}">
                     {{ $page }}
                 </a>
                 @php $prev = $page; @endphp
             @endforeach
 
-            {{-- Next --}}
             @if($users->hasMorePages())
                 <a href="{{ $users->nextPageUrl() }}&per_page={{ request('per_page', 10) }}" class="pg-btn">&#8250;</a>
             @else
                 <span class="pg-btn pg-btn--disabled">&#8250;</span>
             @endif
-
         </div>
     </div>
 </div>
@@ -199,126 +223,14 @@
 @include('admin.modals.add-user')
 @include('admin.modals.edit-user')
 
-{{-- JS Scripts --}}
 @push('scripts')
 <script src="{{ asset('js/admin_userroles.js') }}"></script>
 <script>
-
-    // ── Lines per page ──────────────────────────────────────────
-    function changePerPage(value) {
-        const url = new URL(window.location.href);
-        url.searchParams.set('per_page', value);
-        url.searchParams.set('page', 1);
-        window.location.href = url.toString();
-    }
-
-    // ── Filter panel toggle ─────────────────────────────────────
-    function toggleFilterPanel() {
-        const panel = document.getElementById('filterPanel');
-        panel.style.display = panel.style.display === 'none' ? 'flex' : 'none';
-    }
-
-    // ── Filter pills ────────────────────────────────────────────
-    const activeFilters = { role: [], status: [] };
-
-    function toggleFilterPill(btn) {
-        const filter = btn.dataset.filter;
-        const value  = btn.dataset.value;
-        btn.classList.toggle('active');
-
-        if (btn.classList.contains('active')) {
-            activeFilters[filter].push(value);
-        } else {
-            activeFilters[filter] = activeFilters[filter].filter(v => v !== value);
-        }
-        applyFilters();
-    }
-
-    function applyFilters() {
-        const rows = document.querySelectorAll('#userTableBody tr');
-        let visible = 0;
-        rows.forEach(row => {
-            const role     = row.dataset.role;
-            const status   = row.dataset.status;
-            const roleOk   = activeFilters.role.length === 0   || activeFilters.role.includes(role);
-            const statusOk = activeFilters.status.length === 0 || activeFilters.status.includes(status);
-            const show     = roleOk && statusOk;
-            row.style.display = show ? '' : 'none';
-            if (show) visible++;
-        });
-        document.getElementById('noResults').style.display = visible === 0 ? 'block' : 'none';
-    }
-
-    function clearFilters() {
-        activeFilters.role   = [];
-        activeFilters.status = [];
-        document.querySelectorAll('.filter-pill.active').forEach(p => p.classList.remove('active'));
-        applyFilters();
-    }
-
-    // ── Modals ──────────────────────────────────────────────────
-    function openEditModal(id, name, email, role, status) {
-    document.getElementById('edit-name').value   = name;
-    document.getElementById('edit-email').value  = email;
-    document.getElementById('edit-role').value   = role;
-    document.getElementById('edit-status').value = status;
-    document.getElementById('editForm').action   = `/admin/users/${id}`;  // ← fix this
-    document.getElementById('editModal').style.display = 'flex';
-}
-
-    function closeEditModal() {
-        document.getElementById('editModal').style.display = 'none';
-    }
-
-    function openAddModal() {
-        document.getElementById('addModal').style.display = 'flex';
-    }
-
-    function closeAddModal() {
-        document.getElementById('addModal').style.display = 'none';
-    }
-
-    // ============================================================
-    // DOMContentLoaded — only for event listeners that need the
-    // DOM to be ready (search input, modal backdrop clicks)
-    // ============================================================
     document.addEventListener('DOMContentLoaded', function () {
-
-        // ── Search ──────────────────────────────────────────────
-        const searchInput = document.getElementById('userSearch');
-        const tableBody   = document.getElementById('userTableBody');
-        const noResults   = document.getElementById('noResults');
-
-        if (searchInput) {
-            searchInput.addEventListener('input', function () {
-                const query = this.value.toLowerCase().trim();
-                const rows  = tableBody.querySelectorAll('tr');
-                let visibleCount = 0;
-
-                rows.forEach(row => {
-                    const name  = row.cells[1]?.textContent.toLowerCase() ?? '';
-                    const email = row.cells[2]?.textContent.toLowerCase() ?? '';
-                    const role  = row.cells[3]?.textContent.toLowerCase() ?? '';
-
-                    const matches = !query || name.includes(query) || email.includes(query) || role.includes(query);
-                    row.style.display = matches ? '' : 'none';
-                    if (matches) visibleCount++;
-                });
-
-                noResults.style.display = visibleCount === 0 ? 'block' : 'none';
-            });
-        }
-
-        // ── Modal backdrop click to close ───────────────────────
-        document.getElementById('editModal').addEventListener('click', function (e) {
-            if (e.target === this) closeEditModal();
-        });
-        document.getElementById('addModal').addEventListener('click', function (e) {
-            if (e.target === this) closeAddModal();
-        });
-
+        @if($errors->any())
+            openAddModal();
+        @endif
     });
-
 </script>
 @endpush
 @endsection

@@ -48,3 +48,26 @@
         </form>
     </div>
 </div>
+
+{{-- Hidden delete form --}}
+<form method="POST" id="deleteForm" action="">
+    @csrf
+    @method('DELETE')
+</form>
+
+{{-- Delete Confirmation Modal --}}
+<div id="deleteConfirmModal" class="modal-overlay" style="display:none;">
+    <div class="modal" style="max-width:400px; text-align:center;">
+        <div class="modal-body">
+            <div style="font-size:3rem;">⚠️</div>
+            <h3 style="margin:0.5rem 0;">Delete User?</h3>
+            <p style="color:rgba(0,0,0,0.5); font-size:0.875rem;">
+                This user will be moved to the archive and permanently deleted after <strong>30 days</strong>.
+            </p>
+        </div>
+        <div class="modal-footer" style="justify-content:center; gap:0.5rem;">
+            <button type="button" class="btn btn--outline" onclick="closeDeleteConfirm()">Cancel</button>
+            <button type="button" class="btn btn--danger" onclick="submitDelete()">Yes, Delete</button>
+        </div>
+    </div>
+</div>
