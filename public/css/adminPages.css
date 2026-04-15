@@ -736,6 +736,66 @@ select.form-input {
     z-index: 9999;
 }
 
+#assignModal .modal {
+    width: 500px;
+    height: 600px;              /* fixed height */
+    background-color: #fff;
+    border-radius: 0.6rem;
+    display: flex;
+    flex-direction: column;     /* stack header + form */
+    overflow: hidden;
+}
+
+/* Make the form a flex column */
+#assignForm {
+    flex: 1;                    /* take remaining space after header */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header stays at top */
+.modal-header {
+    padding: 1rem;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+/* Scrollable body fills space between header and footer */
+#assignModalBody {
+    flex: 1;                    /* stretch to fill available space */
+    overflow-y: auto;
+    padding: 1rem;
+    background-color: #f9f9f9;
+    border-radius: 0.5rem;
+}
+
+/* Footer always at bottom, buttons aligned right */
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;  /* align buttons right */
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    border-top: 1px solid rgba(0,0,0,0.05);
+    background: #fff;
+}
+
+/* Checkbox items styled like selection cards */
+.checkbox-item {
+    display: block;
+    padding: 0.6rem 0.75rem;
+    margin-bottom: 0.5rem;
+    background: #fff;          /* solid white for clarity */
+    border: 1px solid rgba(86,45,121,0.15);
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 0.85rem;
+    color: var(--primary-dark);
+    transition: background 0.15s ease;
+}
+
+.checkbox-item:hover {
+    background: rgba(86,45,121,0.05);
+}
+
 @keyframes fadeOut
 {
     0%   { opacity: 1; }

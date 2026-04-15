@@ -5,12 +5,15 @@
 @section('content')
 
     <div class="page-header">
+
         <div>
             <div class="page-label">Admin Management</div>
             <h1 class="page-title">User Roles</h1>
             <div class="gold-line"></div>
         </div>
+
         <button class="btn btn--gold" onclick="openAddModal()">+ Add User</button>
+
     </div>
 
     {{-- Role Summary --}}
@@ -39,16 +42,19 @@
                             👁️
                     @endswitch
                 </span>
+
                 <div>
                     <div class="role-pill-count">{{ $count }}</div>
                     <div class="role-pill-label">{{ ucfirst($role) }}</div>
                 </div>
+
             </div>
         @endforeach
     </div>
 
     {{-- Users Table --}}
     <div class="card">
+
         <div class="card-header">
             <h2 class="card-title">All Users</h2>
         </div>
@@ -102,6 +108,7 @@
             style="display:none; text-align:center; padding: 2rem; color: rgba(0,0,0,0.35); font-size: 0.875rem;">
             No users found matching your search.
         </div>
+
     </div>
 
     @include('admin.modals.add-user')

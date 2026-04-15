@@ -15,7 +15,7 @@ class Event extends Model
 
     public function contestants()
     {
-        return $this->hasMany(Contestant::class);
+        return $this->belongsToMany(Contestant::class, 'contestant_event');
     }
 
     public function judges()

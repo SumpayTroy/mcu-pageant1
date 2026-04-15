@@ -30,6 +30,10 @@ Route::put('/admin/events/{event}', [EventController::class, 'update'])->name('a
 
 Route::delete('/admin/events/{event}', [EventController::class, 'destroy'])->name('admin.events.destroy');
 
+Route::put('/admin/events/{event}/assign/{type}', [EventController::class, 'assign'])->name('admin.events.assign');
+
+Route::delete('/admin/events/{event}/unassign/{type}/{id}', [EventController::class, 'unassign'])->name('admin.events.unassign');
+
 // ─── Judge ───────────────────────────────
 Route::get('/judge/dashboard', function ()
 {
