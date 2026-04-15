@@ -4,7 +4,6 @@
 
 @section('content')
 
-<<<<<<< HEAD
 {{-- Flash Messages --}}
 {{-- @if(session('success'))
     <div class="alert-success" id="flashMessage">
@@ -43,76 +42,16 @@
         <button class="btn btn--gold" onclick="openAddModal()">+ Add User</button>
     </div>
 </div>
-=======
-    <div class="page-header">
->>>>>>> 0919fd1fbacd55237a646c4c93d652a4944b4256
 
-        <div>
-            <div class="page-label">Admin Management</div>
-            <h1 class="page-title">User Roles</h1>
-            <div class="gold-line"></div>
-        </div>
-
-        <button class="btn btn--gold" onclick="openAddModal()">+ Add User</button>
-
-    </div>
-
-<<<<<<< HEAD
     {{-- Top Bar: Search + Lines per page + Filters --}}
     <div class="table-top-bar">
-=======
-    {{-- Role Summary --}}
-    <div class="role-summary">
-        @foreach ($roleCounts as $role => $count)
-            <div class="role-pill">
-                <span class="role-pill-icon">
-                    @switch($role)
-                        @case('admin')
-                            🛡️
-                        @break
-
-                        @case('judge')
-                            👨‍⚖️
-                        @break
-
-                        @case('tabulator')
-                            📋
-                        @break
-
-                        @case('sas')
-                            ⚙️
-                        @break
-
-                        @default
-                            👁️
-                    @endswitch
-                </span>
-
-                <div>
-                    <div class="role-pill-count">{{ $count }}</div>
-                    <div class="role-pill-label">{{ ucfirst($role) }}</div>
-                </div>
-
-            </div>
-        @endforeach
-    </div>
-
-    {{-- Users Table --}}
-    <div class="card">
-
-        <div class="card-header">
-            <h2 class="card-title">All Users</h2>
-        </div>
-
-        {{-- Search Bar --}}
->>>>>>> 0919fd1fbacd55237a646c4c93d652a4944b4256
         <div class="search-wrap">
             <span class="search-icon">🔍</span>
             <input type="text" id="userSearch" class="search-input" placeholder="Search name, email or role…"
                 autocomplete="off">
         </div>
 
-<<<<<<< HEAD
+
         <div class="table-top-right">
             <div class="lpp-wrap">
                 <span class="lpp-label">Lines per page</span>
@@ -202,7 +141,7 @@
             @endforeach
         </tbody>
     </table>
-=======
+
         <table class="tbl">
             <thead>
                 <tr>
@@ -245,11 +184,9 @@
             style="display:none; text-align:center; padding: 2rem; color: rgba(0,0,0,0.35); font-size: 0.875rem;">
             No users found matching your search.
         </div>
->>>>>>> 0919fd1fbacd55237a646c4c93d652a4944b4256
+
 
     </div>
-<<<<<<< HEAD
-
     {{-- Bottom Bar --}}
     <div class="table-bottom-bar">
         <span class="showing-text">
@@ -291,13 +228,10 @@
         </div>
     </div>
 </div>
-=======
->>>>>>> 0919fd1fbacd55237a646c4c93d652a4944b4256
 
     @include('admin.modals.add-user')
     @include('admin.modals.edit-user')
 
-<<<<<<< HEAD
 @push('scripts')
 <script src="{{ asset('js/admin_userroles.js') }}"></script>
 <script>
@@ -308,11 +242,9 @@
     });
 </script>
 @endpush
-=======
+
     {{-- JS Scripts --}}
     @push('scripts')
         <script src="{{ asset('js/admin_userroles.js') }}"></script>
     @endpush
-
->>>>>>> 0919fd1fbacd55237a646c4c93d652a4944b4256
 @endsection
