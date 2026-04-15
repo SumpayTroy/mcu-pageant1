@@ -8,8 +8,13 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+<<<<<<< HEAD
     // ── Index ────────────────────────────────────────────────────
     public function index(Request $request)
+=======
+    // Show User Roles Page
+    public function index()
+>>>>>>> 0919fd1fbacd55237a646c4c93d652a4944b4256
     {
         $perPage = (int) $request->input('per_page', 10);
 
@@ -27,7 +32,11 @@ class UserController extends Controller
         return view('admin.user-roles', compact('users', 'roleCounts'));
     }
 
+<<<<<<< HEAD
     // ── Store ────────────────────────────────────────────────────
+=======
+    // STORE NEW USER (Add User Modal)
+>>>>>>> 0919fd1fbacd55237a646c4c93d652a4944b4256
     public function store(Request $request)
     {
         $request->validate([
@@ -61,7 +70,11 @@ class UserController extends Controller
             ->with('success', 'User "' . $request->name . '" has been added successfully!');
     }
 
+<<<<<<< HEAD
     // ── Update ───────────────────────────────────────────────────
+=======
+    // UPDATE USER (Edit Modal)
+>>>>>>> 0919fd1fbacd55237a646c4c93d652a4944b4256
     public function update(Request $request, User $user)
     {
         $request->validate([
@@ -91,6 +104,7 @@ class UserController extends Controller
             'per_page' => $request->input('per_page', 10),
         ])->with('success', 'User "' . $user->name . '" has been updated successfully!');
     }
+<<<<<<< HEAD
 
     // ── Destroy (soft delete) ──────────────────────────────────────────────────
     public function destroy(User $user)
@@ -132,4 +146,6 @@ public function forceDelete($id)
     return redirect()->route('admin.user-archive')
         ->with('success', 'User "' . $name . '" has been permanently deleted.');
 }
+=======
+>>>>>>> 0919fd1fbacd55237a646c4c93d652a4944b4256
 }
