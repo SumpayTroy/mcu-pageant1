@@ -29,11 +29,6 @@ class UserController extends Controller
     }
 
     $users = $query->paginate($perPage)->appends($request->query());
-    if ($request->ajax()) {
-        // Return only the table rows if AJAX
-        return view('admin.partials.user-rows', compact('users'))->render();
-    }
-
     $roleCounts = User::selectRaw('role, count(*) as count')
                       ->groupBy('role')
                       ->pluck('count', 'role');

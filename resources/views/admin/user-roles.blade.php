@@ -2,6 +2,10 @@
 
 @section('title', 'User Roles')
 
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/userRoles.css') }}">
+@endpush
+
 @section('content')
 
 @if(session('success'))
@@ -22,7 +26,7 @@
         <h1 class="page-title">User Roles</h1>
         <div class="gold-line"></div>
     </div>
-    <div style="display:flex; gap:0.5rem; align-items:center;">
+    <div class="page-header-actions">
         <a href="{{ route('admin.user-archive') }}" class="btn btn--outline">🗄 Archive</a>
         <button class="btn btn--gold" onclick="openAddModal()">+ Add User</button>
     </div>
@@ -30,16 +34,21 @@
 
 {{-- Top Bar --}}
 <div class="table-top-bar">
-    <div class="search-wrap">
-        <span class="search-icon">🔍</span>
-        <input
-            type="text"
-            id="userSearch"
-            class="search-input"
-            placeholder="Search name, email or role…"
-            autocomplete="off"
-        >
-    </div>
+    <form method="GET" action="{{ route('admin.user-roles') }}" id="searchForm" style="display:contents;">
+        <input type="hidden" name="per_page" value="{{ request('per_page', 10) }}">
+        <div class="search-wrap">
+            <span class="search-icon">🔍</span>
+            <input
+                type="text"
+                name="search"
+                id="userSearch"
+                class="search-input"
+                placeholder="Search name, email or role…"
+                autocomplete="off"
+                value="{{ request('search') }}"
+            >
+        </div>
+    </form>
 
     <div class="table-top-right">
         <div class="lpp-wrap">
@@ -117,9 +126,7 @@
                 <span class="badge badge--{{ $user->status }}">{{ ucfirst($user->status) }}</span>
             </td>
             <td>
-                <div style="display:flex; gap:0.4rem; align-items:center;">
-
-                    {{-- Edit --}}
+                <div class="tbl-actions">
                     <button
                         class="btn btn--sm btn--outline"
                         onclick="openEditModal(
@@ -133,7 +140,6 @@
                         ✏ Edit
                     </button>
 
-                    {{-- Archive (soft delete) trigger --}}
                     <button
                         type="button"
                         class="btn btn--sm btn--danger"
@@ -144,7 +150,6 @@
                     >
                         🗑 Delete
                     </button>
-
                 </div>
             </td>
         </tr>
@@ -153,8 +158,7 @@
 </table>
 
 {{-- No results --}}
-<div id="noResults"
-    style="display:none; text-align:center; padding:2rem; color:rgba(0,0,0,0.35); font-size:0.875rem;">
+<div id="noResults" class="no-results">
     No users found matching your search.
 </div>
 
@@ -200,47 +204,34 @@
 </div>
 
 {{-- ═══════════════════════════════════════
-     ARCHIVE CONFIRM MODAL (single shared instance)
+     ARCHIVE CONFIRM MODAL
 ════════════════════════════════════════ --}}
-<div class="alert-confirm" id="archiveConfirm">
-    <div style="font-size:2rem; margin-bottom:0.75rem;">📦</div>
-    <div style="font-weight:700; font-size:1rem; margin-bottom:0.35rem;">Archive User?</div>
-    <div id="archiveConfirmName"
-         style="font-size:0.85rem; opacity:0.85; margin-bottom:0.4rem; font-weight:500;">
-    </div>
-    <div style="font-size:0.78rem; opacity:0.65; margin-bottom:1.4rem;">
+<div class="archive-confirm" id="archiveConfirm">
+    <div class="archive-confirm__icon-wrap">📦</div>
+    <div class="archive-confirm__title">Archive User?</div>
+    <div class="archive-confirm__name" id="archiveConfirmName"></div>
+    <div class="archive-confirm__desc">
         This user will be moved to the archive and permanently deleted after <strong>30 days</strong>.
     </div>
-    <div style="display:flex; gap:0.6rem; justify-content:center;margin-bottom:1.10rem;">
-        <button
-            class="btn btn--sm"
-            style="background:rgba(255,255,255,0.15); color:#fff; border:1px solid rgba(255,255,255,0.35);"
-            onclick="closeArchiveConfirm()"
-        >
+    <div class="archive-confirm__actions">
+        <button class="archive-confirm__btn archive-confirm__cancel" onclick="closeArchiveConfirm()">
             Cancel
         </button>
-        <button
-            class="btn btn--sm"
-            style="background:#e74c3c; color:#fff; border:none;"
-            onclick="submitArchiveForm()"
-        >
+        <button class="archive-confirm__btn archive-confirm__submit" onclick="submitArchiveForm()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 8v13H3V8"/><path d="M1 3h22v5H1z"/><path d="M10 12h4"/>
+            </svg>
             Yes, Archive
         </button>
     </div>
 </div>
 
-{{-- Shared hidden archive form --}}
-<form method="POST" id="archiveForm" style="display:none;">
+<form method="POST" id="archiveForm" class="form--hidden">
     @csrf
     @method('DELETE')
 </form>
 
-{{-- Backdrop --}}
-<div
-    id="archiveBackdrop"
-    onclick="closeArchiveConfirm()"
-    style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45); z-index:9997;"
-></div>
+<div class="archive-backdrop" id="archiveBackdrop" onclick="closeArchiveConfirm()"></div>
 
 {{-- Modals --}}
 @include('admin.modals.add-user')

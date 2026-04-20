@@ -3,6 +3,9 @@
 @section('title', 'User Archive')
 
 @section('content')
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/userArchive.css') }}">
+@endpush
 
 <div class="page-header">
     <div>
@@ -56,15 +59,13 @@
                     <td>{{ $user->deleted_at->format('M d, Y') }}</td>
                     <td>
                         @if($daysLeft <= 5)
-                            <span style="color:#dc2626; font-weight:600;">⚠ {{ $daysLeft }} day(s)</span>
+                            <span class="days-warning">⚠ {{ $daysLeft }} day(s)</span>
                         @else
                             <span>{{ $daysLeft }} day(s)</span>
                         @endif
                     </td>
                     <td>
-                        <div style="display:flex; gap:0.5rem; align-items:center;">
-
-                            {{-- Restore trigger --}}
+                        <div class="tbl-actions">
                             <button
                                 type="button"
                                 class="btn btn--sm btn--outline"
@@ -76,7 +77,6 @@
                                 ↩ Restore
                             </button>
 
-                            {{-- Permanent Delete trigger --}}
                             <button
                                 type="button"
                                 class="btn btn--sm btn--danger"
@@ -87,13 +87,12 @@
                             >
                                 🗑 Delete Permanently
                             </button>
-
                         </div>
                     </td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="6" style="text-align:center; color:rgba(0,0,0,0.4); padding:2rem 0;">
+                    <td colspan="6" class="tbl-empty">
                         No archived users found
                     </td>
                 </tr>
@@ -106,86 +105,72 @@
      RESTORE CONFIRM MODAL
 ════════════════════════════════════════ --}}
 <div class="alert-confirm" id="restoreConfirm">
-    <div style="font-size:2rem; margin-bottom:0.75rem;">↩</div>
-    <div style="font-weight:700; font-size:1rem; margin-bottom:0.35rem;">Restore User?</div>
-    <div id="restoreConfirmName"
-         style="font-size:0.85rem; opacity:0.85; margin-bottom:0.4rem; font-weight:500;">
+    <div class="alert-confirm__icon-wrap alert-confirm__icon-wrap--restore">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+            <path d="M3 3v5h5"/>
+        </svg>
     </div>
-    <div style="font-size:0.78rem; opacity:0.65; margin-bottom:1.4rem;">
-        This user will be restored and moved back to the active users list.
+    <div class="alert-confirm__title">Restore User?</div>
+    <div class="alert-confirm__name" id="restoreConfirmName"></div>
+    <div class="alert-confirm__desc">
+        This user will be <strong>restored</strong> and moved back to the active users list.
     </div>
-    <div style="display:flex; gap:0.6rem; justify-content:center; width:100%;margin-bottom:1.30rem;">
-        <button
-            class="btn btn--sm"
-            style="background:rgba(255,255,255,0.15); color:#fff; border:1px solid rgba(255,255,255,0.35);"
-            onclick="closeRestoreConfirm()"
-        >
+    <div class="alert-confirm__actions">
+        <button class="alert-confirm__btn alert-confirm__cancel" onclick="closeRestoreConfirm()">
             Cancel
         </button>
-        <button
-            class="btn btn--sm"
-            style="background:#1a8a4a; color:#fff; border:none;"
-            onclick="submitRestoreForm()"
-        >
+        <button class="alert-confirm__btn alert-confirm__restore" onclick="submitRestoreForm()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                <path d="M3 3v5h5"/>
+            </svg>
             Yes, Restore
         </button>
     </div>
 </div>
 
-{{-- Shared hidden restore form --}}
-<form method="POST" id="restoreForm" style="display:none;">
-    @csrf
-</form>
-
-{{-- Restore Backdrop --}}
-<div
-    id="restoreBackdrop"
-    onclick="closeRestoreConfirm()"
-    style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45); z-index:9997;"
-></div>
+<form method="POST" id="restoreForm" class="form--hidden">@csrf</form>
+<div class="modal-backdrop" id="restoreBackdrop" onclick="closeRestoreConfirm()"></div>
 
 {{-- ═══════════════════════════════════════
      PERMANENT DELETE CONFIRM MODAL
 ════════════════════════════════════════ --}}
 <div class="alert-confirm" id="deleteConfirm">
-    <div style="font-size:2rem; margin-bottom:0.75rem;">🗑</div>
-    <div style="font-weight:700; font-size:1rem; margin-bottom:0.35rem;">Permanently Delete?</div>
-    <div id="deleteConfirmName"
-         style="font-size:0.85rem; opacity:0.85; margin-bottom:0.4rem; font-weight:500;">
+    <div class="alert-confirm__icon-wrap alert-confirm__icon-wrap--delete">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="3 6 5 6 21 6"/>
+            <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+            <path d="M10 11v6M14 11v6"/>
+            <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+        </svg>
     </div>
-    <div style="font-size:0.78rem; opacity:0.65; margin-bottom:1.4rem;">
-        This action <strong>cannot</strong> be undone.
+    <div class="alert-confirm__title">Permanently Delete?</div>
+    <div class="alert-confirm__name" id="deleteConfirmName"></div>
+    <div class="alert-confirm__desc">
+        This action <strong>cannot be undone.</strong> The user will be removed forever.
     </div>
-    <div style="display:flex; gap:0.6rem; justify-content:center; width:100%;margin-bottom:1.30rem;">
-        <button
-            class="btn btn--sm"
-            style="background:rgba(255,255,255,0.15); color:#fff; border:1px solid rgba(255,255,255,0.35);"
-            onclick="closeDeleteConfirm()"
-        >
+    <div class="alert-confirm__actions">
+        <button class="alert-confirm__btn alert-confirm__cancel" onclick="closeDeleteConfirm()">
             Cancel
         </button>
-        <button
-            class="btn btn--sm"
-            style="background:#e74c3c; color:#fff; border:none;"
-            onclick="submitDeleteForm()"
-        >
+        <button class="alert-confirm__btn alert-confirm__delete" onclick="submitDeleteForm()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="3 6 5 6 21 6"/>
+                <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+                <path d="M10 11v6M14 11v6"/>
+                <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+            </svg>
             Yes, Delete
         </button>
     </div>
 </div>
 
-{{-- Shared hidden delete form --}}
-<form method="POST" id="deleteForm" style="display:none;">
+<form method="POST" id="deleteForm" class="form--hidden">
     @csrf
     @method('DELETE')
 </form>
-
-{{-- Delete Backdrop --}}
-<div
-    id="deleteBackdrop"
-    onclick="closeDeleteConfirm()"
-    style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45); z-index:9997;"
-></div>
+<div class="modal-backdrop" id="deleteBackdrop" onclick="closeDeleteConfirm()"></div>
 
 {{-- ═══════════════════════════════════════
      SCRIPTS
@@ -247,5 +232,4 @@
         }
     });
 </script>
-
 @endsection
